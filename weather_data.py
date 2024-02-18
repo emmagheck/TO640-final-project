@@ -52,14 +52,14 @@ stations = stations.nearby(25.7951, -80.2795)
 mia = stations.fetch(1)
 
 # Print DataFrame
-print(midway)
-print(ohare)
-print(jfk)
-print(lga)
-print(newark)
-print(lax)
-print(atl)
-print(mia)
+# print(midway)
+# print(ohare)
+# print(jfk)
+# print(lga)
+# print(newark)
+# print(lax)
+# print(atl)
+# print(mia)
 
 
 # Set time period
@@ -98,22 +98,26 @@ data_atl = data_atl.fetch()
 data_mia = Monthly('72202', start, end)
 data_mia = data_mia.fetch()
 
-print(data_midway)
-print(data_ohare)
-print(data_jfk)
-print(data_lga)
-print(data_newark)
-print(data_lax)
-print(data_atl)
-print(data_mia)
+# print(data_midway)
+# print(data_ohare)
+# print(data_jfk)
+# print(data_lga)
+# print(data_newark)
+# print(data_lax)
+# print(data_atl)
+# print(data_mia)
+
 
 import pandas as pd
 
-# Combine data
-weather_data = pd.concat([data_midway, data_ohare, data_jfk, data_lga, data_newark, data_lax, data_atl, data_mia])
 
-# Drop the 'tsun' column because it returned all null values
-weather_data.drop(columns=['tsun'], inplace=True)
+    
+# Combine data_midway and data_ohare into a single DataFrame
+weather_data = pd.concat([data_midway, data_ohare, data_jfk, data_lga, data_newark, data_lax, data_atl, data_mia])
+print(weather_data)
+
+# Create date column for time values
+weather_data.index.name = 'Date'
 
 # Add column for Airport
 weather_data['Airport'] = ['Midway'] * len(data_midway) + ['OHare'] * len(data_ohare) + ['JFK'] * len(data_jfk) + ['LGA'] * len(data_lga) + ['Newark'] * len(data_newark) + ['LAX'] * len(data_lax) + ['ATL'] * len(data_atl) + ['MIA'] * len(data_mia)
@@ -121,5 +125,9 @@ weather_data['Airport'] = ['Midway'] * len(data_midway) + ['OHare'] * len(data_o
 # Add column for City
 weather_data['City'] = ['Chicago'] * len(data_midway) + ['Chicago'] * len(data_ohare) + ['New York'] * len(data_jfk) + ['New York'] * len(data_lga) + ['New York'] * len(data_newark) + ['Los Angeles'] * len(data_lax) + ['Atlanta'] * len(data_atl) + ['Miami'] * len(data_mia)
 
-# Write to csv file
-weather_data.to_csv('weather_data.csv', index=False)
+    
+# Drop the 'tsun' column because it returned all null values
+weather_data.drop(columns=['tsun'], inplace=True)
+
+weather_data.to_csv('dates.csv')
+
